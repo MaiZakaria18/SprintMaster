@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/add_project.css' %}">
+    <title>Add Project - SprintMaster</title>
+</head>
+
+<body>
+    <nav>
+        <h1>SprintMaster</h1>
+        <div class="navbar-links">
+            <a href="#">About</a>
+            <a href="{% url 'project:project-list' %}">Projects</a>
+            <a href="#">Log out</a>
+        </div>
+    </nav>
+
+    <main>
+        <h1>Add Project</h1>
+
+        <form method="post">
+        {% csrf_token %}
+            
+        {% if form.non_field_errors %}
+            <div class="form-errors">
+                {% for error in form.non_field_errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+            <div class="form-group">
+                <label for="{{ form.name.id_for_label }}">Name:</label>
+                {{ form.name }}
+                {% if form.name.errors %}
+                    <div class="error">{{ form.name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.description.id_for_label }}">Description:</label>
+                {{ form.description }}
+                {% if form.description.errors %}
+                    <div class="error">{{ form.description.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.start_date.id_for_label }}">Start Date:</label>
+                <input type="date" id="{{ form.start_date.id_for_label }}" name="{{ form.start_date.html_name }}" value="{{ form.start_date.value }}" class="form-control">
+                {% if form.start_date.errors %}
+                    <div class="error">{{ form.start_date.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.end_date.id_for_label }}">End Date:</label>
+                <input type="date" id="{{ form.end_date.id_for_label }}" name="{{ form.end_date.html_name }}" value="{{ form.end_date.value }}" class="form-control">
+                {% if form.end_date.errors %}
+                    <div class="error">{{ form.end_date.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.status.id_for_label }}">Status:</label>
+                {{ form.status }}
+                {% if form.status.errors %}
+                    <div class="error">{{ form.status.errors }}</div>
+                {% endif %}
+            </div>
+
+            <button type="submit">Save Project</button>
+        </form>
+
+    </main>
+
+    <footer>
+        <p>© 2024 SprintMaster. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

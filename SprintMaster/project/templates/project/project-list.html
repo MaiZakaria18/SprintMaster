@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/project-list.css' %}">
+    <title>Projects - SprintMaster</title>
+</head>
+
+<body>
+    <nav>
+        <h1>SprintMaster</h1>
+        <div class="navbar-links">
+            <a href="#">About</a>
+            <a href="#">Log out</a>
+        </div>
+    </nav>
+
+    <main>
+        <h1>Projects</h1>
+
+        <a href="{% url 'project:add-project' %}" class="add-project-button">Add project</a>
+
+        <div class="project-grid">
+            {% for project in projects %}
+            <div class="project-item">
+                <h2>{{ project.name }}</h2>
+                <p>{{ project.description|truncatewords:20 }}</p>
+                <p>Status: {{ project.status }}</p>
+                <p>Start Date: {{ project.start_date }}</p>
+                <p>End Date: {{ project.end_date }}</p>
+            </div>
+            {% empty %}
+            <p>No projects found.</p>
+            {% endfor %}
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2024 SprintMaster. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>
