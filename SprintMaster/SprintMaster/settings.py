@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import timedelta
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -42,9 +44,6 @@ INSTALLED_APPS = [
     'user',
     'project',
     'task',
-    'milestone',
-    'comment',
-    'attachment',
     'rest_framework',
     'corsheaders',
     ]
@@ -140,3 +139,13 @@ AUTH_USER_MODEL = 'user.CustomUser'
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+}

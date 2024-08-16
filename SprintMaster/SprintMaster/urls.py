@@ -24,7 +24,6 @@ urlpatterns = [
    
     path('admin/', admin.site.urls),
     path('SprintMaster', views.SprintMaster, name='SprintMaster'),
-    path('project/', views.project),
     path('', include('user.urls')),
-    path('', include('project.urls'))
+  
 ]
