@@ -1,0 +1,139 @@
+App.js:
+
+import React from 'react';
+import Signup from './Signup';
+import Login from './Login';
+
+function App() {
+	return (
+		<div>
+		<h1>Project Management App </h1>
+			< h2 > Sign Up </h2>
+				< Signup />
+				<h2>Login </h2>
+				< Login />
+				</div>
+  );
+}
+
+export default App;
+
+
+Login.js:
+
+import React, { useState } from 'react';
+import axios from 'axios';
+
+const Login = () => {
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		try {
+			const response = await axios.post('http://localhost:8000/api/login/', {
+				email,
+				password,
+			});
+			console.log(response.data);
+			// Store tokens and redirect or show success message
+		} catch (error) {
+			console.error('Error logging in', error.response.data);
+		}
+	};
+
+	return (
+		<form onSubmit= { handleSubmit } >
+		<input
+				type="email"
+	value = { email }
+	onChange = {(e) => setEmail(e.target.value)}
+placeholder = "Email"
+required
+	/>
+	<input
+				type="password"
+value = { password }
+onChange = {(e) => setPassword(e.target.value)}
+placeholder = "Password"
+required
+	/>
+	<button type="submit" > Login </button>
+		</form>
+	);
+};
+
+export default Login;
+
+Signup.js:
+
+import React, { useState } from 'react';
+import axios from 'axios';
+
+const Signup = () => {
+	const [username, setUsername] = useState('');
+	const [email, setEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('');
+	const [role, setRole] = useState('employee'); // Default role
+
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		try {
+			const response = await axios.post('http://localhost:8000/api/signup/', {
+				username,
+				email,
+				password,
+				confirm_password: confirmPassword,
+				role,
+			});
+			console.log(response.data);
+			// Redirect or show success message
+		} catch (error) {
+			console.error('Error signing up', error.response.data);
+		}
+	};
+
+	return (
+		<form onSubmit= { handleSubmit } >
+		<input
+				type="text"
+	value = { username }
+	onChange = {(e) => setUsername(e.target.value)}
+placeholder = "Username"
+required
+	/>
+	<input
+				type="email"
+value = { email }
+onChange = {(e) => setEmail(e.target.value)}
+placeholder = "Email"
+required
+	/>
+	<input
+				type="password"
+value = { password }
+onChange = {(e) => setPassword(e.target.value)}
+placeholder = "Password"
+required
+	/>
+	<input
+				type="password"
+value = { confirmPassword }
+onChange = {(e) => setConfirmPassword(e.target.value)}
+placeholder = "Confirm Password"
+required
+	/>
+	<select value={ role } onChange = {(e) => setRole(e.target.value)}>
+		<option value="employee" > Employee </option>
+			< option value = "admin" > Admin </option>
+				< option value = "manager" > Manager </option>
+					< option value = "junior" > Junior </option>
+						< option value = "senior" > Senior </option>
+							</select>
+							< button type = "submit" > Sign Up </button>
+								</form>
+	);
+};
+
+export default Signup;

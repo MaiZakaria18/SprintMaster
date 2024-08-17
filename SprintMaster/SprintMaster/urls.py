@@ -20,10 +20,11 @@ from . import views
 from user import urls
 from project import urls
 
+
 urlpatterns = [
-   
+
     path('admin/', admin.site.urls),
     path('SprintMaster', views.SprintMaster, name='SprintMaster'),
-    path('', include('user.urls')),
-  
+    path('user/', include('user.urls')),
+
 ]

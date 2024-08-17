@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from django.db import IntegrityError
 from .models import CustomUser
 from .serializers import CustomUserSerializer
+from django.contrib.auth import authenticate
 # DRF API View for signup
 
 
