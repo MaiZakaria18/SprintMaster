@@ -18,7 +18,7 @@ def signup(request):
     if serializer.is_valid():
         try:
             serializer.save()
-            return Response({'success': True, 'redirect_url': '/login/'}, status=status.HTTP_201_CREATED)
+            return Response({'success': True}, status=status.HTTP_201_CREATED)
         except IntegrityError as e:
             if 'UNIQUE constraint failed' in str(e):
                 if 'user_customuser.username' in str(e):
@@ -43,7 +43,6 @@ def login(request):
             return Response({
                 'refresh': str(refresh),
                 'access': str(refresh.access_token),
-                'redirect_url': '/list-project/'
             }, status=status.HTTP_200_OK)
 
         return Response({'error': 'Invalid email or password.'}, status=status.HTTP_400_BAD_REQUEST)
