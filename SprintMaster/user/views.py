@@ -7,7 +7,6 @@ from rest_framework.response import Response
 from django.db import IntegrityError
 from .models import CustomUser
 from .serializers import CustomUserSerializer
-from django.contrib.auth import authenticate
 # DRF API View for signup
 
 
@@ -18,7 +17,7 @@ def signup(request):
     if serializer.is_valid():
         try:
             serializer.save()
-            return Response({'success': True}, status=status.HTTP_201_CREATED)
+            return Response({'success': True, }, status=status.HTTP_201_CREATED)
         except IntegrityError as e:
             if 'UNIQUE constraint failed' in str(e):
                 if 'user_customuser.username' in str(e):
@@ -35,7 +34,7 @@ def login(request):
 
     if serializer.is_valid():
         email = serializer.validated_data['email']
-        user = authenticate(
+        user = CustomUser(
             email=email, password=serializer.validated_data['password'])
 
         if user:

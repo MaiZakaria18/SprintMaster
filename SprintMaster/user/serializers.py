@@ -40,7 +40,7 @@ class LoginSerializer(serializers.Serializer):
         password = data.get('password')
 
         if email and password:
-            user = authenticate(email=email, password=password)
+            user = CustomUser(email=email, password=password)
             if user is None:
                 raise serializers.ValidationError('Invalid email or password.')
         else:
