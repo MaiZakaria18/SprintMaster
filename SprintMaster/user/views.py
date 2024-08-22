@@ -1,16 +1,20 @@
+from rest_framework_simplejwt.exceptions import InvalidToken
 from rest_framework import status
 from .serializers import LoginSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework import serializers, status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django.db import IntegrityError
 from .models import CustomUser
 from .serializers import CustomUserSerializer
+from rest_framework.permissions import AllowAny
+
 # DRF API View for signup
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def signup(request):
     serializer = CustomUserSerializer(data=request.data)
 
@@ -29,21 +33,25 @@ def signup(request):
 
 
 @api_view(['POST'])
+@permission_classes([AllowAny])
 def login(request):
     serializer = LoginSerializer(data=request.data)
 
     if serializer.is_valid():
         email = serializer.validated_data['email']
-        user = CustomUser(
-            email=email, password=serializer.validated_data['password'])
+        password = serializer.validated_data['password']
+        user = CustomUser(request, email=email, password=password)
 
-        if user:
-            refresh = RefreshToken.for_user(user)
-            return Response({
-                'refresh': str(refresh),
-                'access': str(refresh.access_token),
-            }, status=status.HTTP_200_OK)
-
-        return Response({'error': 'Invalid email or password.'}, status=status.HTTP_400_BAD_REQUEST)
+        if user is not None:
+            try:
+                refresh = RefreshToken.for_user(user)
+                return Response({
+                    'refresh': str(refresh),
+                    'access': str(refresh.access_token),
+                }, status=status.HTTP_200_OK)
+            except InvalidToken:
+                return Response({'error': 'Invalid token.'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'error': 'Invalid email or password.'}, status=status.HTTP_400_BAD_REQUEST)
 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

@@ -19,7 +19,7 @@ from django.urls import path, include
 from . import views
 from user import urls
 from project import urls
-
+from task import urls
 
 urlpatterns = [
 
@@ -27,5 +27,7 @@ urlpatterns = [
     path('SprintMaster', views.SprintMaster, name='SprintMaster'),
     path('user/', include('user.urls')),
     path('project/', include('project.urls')),
+    path('task/', include('task.urls')),
+
 
 ]
