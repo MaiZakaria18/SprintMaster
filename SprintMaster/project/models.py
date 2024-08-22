@@ -14,7 +14,8 @@ class Project(models.Model):
         ('In Progress', 'In Progress'),
         ('Completed', 'Completed')
     ])
-    created_by = created_by = models.ForeignKey(CustomUser, on_delete=models.CASCADE)  # Ensure this is correct
+    created_by = created_by = models.ForeignKey(
+        CustomUser, on_delete=models.CASCADE)  # Ensure this is correct
 
     created_at = models.DateTimeField(null=True, blank=True)
 
